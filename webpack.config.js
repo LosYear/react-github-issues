@@ -40,9 +40,9 @@ let config = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(['public']),
+        // new CleanWebpackPlugin(['public']),
         new HtmlWebpackPlugin({
-            template: "./src/index.html",
+            template: "./public/index.html",
             filename: "./index.html"
         }),
         new webpack.NamedModulesPlugin(),
