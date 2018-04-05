@@ -5,7 +5,7 @@ class IssuesListItem extends Component{
         const item = this.props.item;
         const date = new Date(item.created_at);
         return (
-            <li><b>#{item.number}</b> {item.title} | {date.toLocaleDateString()}</li>
+            <li><b>#{item.number}</b> {item.title} | <i>{date.toLocaleDateString()}</i></li>
         );
     }
 }

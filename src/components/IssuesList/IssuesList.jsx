@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 import RepositoryInput from './../RepositoryInput/RepositoryInput';
+import PageLimitDropdown from './../PageLimitDropdown/PageLimitDropdown';
 import IssuesListItem from './IssuesListItem';
 import GithubAPI from "../../api/GithubAPI";
 
@@ -9,15 +10,47 @@ class IssuesList extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {items: []};
+        this.state = {
+            items: [],
+            currentPage: 1,
+            itemsPerPage: 10,
+            repositoryName: ''
+        };
     }
 
+    loadData = () => {
+        const path = this.state.repositoryName;
 
-    loadData = (path) => {
-        GithubAPI.fetchIssues(path).then((items) => {
+        if (path === '') {
+            this.setState({items: []});
+            return;
+        }
+
+        GithubAPI.fetchIssues(path, {
+            page: this.state.currentPage,
+            per_page: this.state.itemsPerPage,
+        }).then((items) => {
             this.setState({items: items});
         });
     };
+
+    setItemsPerPage = (value) => {
+        this.setState({itemsPerPage: value, currentPage: 1});
+
+    };
+
+    setRepositoryName = (value) => {
+        this.setState({repositoryName: value});
+    };
+
+    componentDidUpdate(prevProps, prevState) {
+        const {currentPage, itemsPerPage, repositoryName} = prevState;
+        const {currentPage: newCurrentPage, itemsPerPage: newItemsPerPage, repositoryName: newRepositoryName} = this.state;
+
+        if (currentPage !== newCurrentPage || itemsPerPage !== newItemsPerPage || repositoryName !== newRepositoryName) {
+            this.loadData();
+        }
+    }
 
 
     render() {
@@ -25,7 +58,8 @@ class IssuesList extends Component {
 
         return (
             <div>
-                <RepositoryInput handleSubmit={this.loadData}/>
+                <RepositoryInput handleSubmit={this.setRepositoryName}/>
+                <PageLimitDropdown onChange={this.setItemsPerPage} value={this.state.itemsPerPage}/>
                 <ul>
                     {items}
                 </ul>
