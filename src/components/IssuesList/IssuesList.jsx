@@ -34,6 +34,8 @@ class IssuesList extends Component {
             status: RequestIndicator.STATUS_LOADING
         });
 
+        // @TODO: refactor
+
         GithubAPI.fetchIssuesCount(path).then((count) => {
             this.setState({itemsCount: count, status: RequestIndicator.STATUS_SUCCESS});
         }).catch((response) => {
