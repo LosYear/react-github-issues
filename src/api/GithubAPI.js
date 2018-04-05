@@ -11,7 +11,7 @@ class GithubAPI {
                 return response.json();
             }
 
-            return [];
+            throw response;
         });
     }
 
@@ -23,7 +23,7 @@ class GithubAPI {
                 return response.json();
             }
 
-            return {open_issues_count: 0};
+            throw response;
         }).then((data) => data.open_issues_count);
     }
 }

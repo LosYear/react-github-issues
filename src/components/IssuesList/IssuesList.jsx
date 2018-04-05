@@ -5,6 +5,7 @@ import PageLimitDropdown from './../PageLimitDropdown/PageLimitDropdown';
 import IssuesListItem from './IssuesListItem';
 import GithubAPI from "../../api/GithubAPI";
 import Pager from "./../Pager/Pager";
+import RequestIndicator from "./../RequestIndicator/RequestIndicator";
 
 
 class IssuesList extends Component {
@@ -16,7 +17,8 @@ class IssuesList extends Component {
             currentPage: 1,
             itemsPerPage: 10,
             repositoryName: '',
-            itemsCount: 0
+            itemsCount: 0,
+            status: null
         };
     }
 
@@ -28,15 +30,23 @@ class IssuesList extends Component {
             return;
         }
 
+        this.setState({
+            status: RequestIndicator.STATUS_LOADING
+        });
+
         GithubAPI.fetchIssuesCount(path).then((count) => {
-            this.setState({itemsCount: count});
+            this.setState({itemsCount: count, status: RequestIndicator.STATUS_SUCCESS});
+        }).catch((response) => {
+            this.setState({status: (response.status === 404) ? RequestIndicator.STATUS_NOT_FOUND : RequestIndicator.STATUS_ERROR});
         });
 
         GithubAPI.fetchIssues(path, {
             page: this.state.currentPage,
             per_page: this.state.itemsPerPage,
         }).then((items) => {
-            this.setState({items: items});
+            this.setState({items: items, status: RequestIndicator.STATUS_SUCCESS});
+        }).catch((response) => {
+            this.setState({status: (response.status === 404) ? RequestIndicator.STATUS_NOT_FOUND : RequestIndicator.STATUS_ERROR});
         });
     };
 
@@ -70,6 +80,7 @@ class IssuesList extends Component {
             <div>
                 <RepositoryInput handleSubmit={this.setRepositoryName}/>
                 <PageLimitDropdown onChange={this.setItemsPerPage} value={this.state.itemsPerPage}/>
+                <RequestIndicator status={this.state.status}/>
                 <ul>
                     {items}
                 </ul>
