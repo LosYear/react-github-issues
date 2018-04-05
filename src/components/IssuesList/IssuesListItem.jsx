@@ -3,8 +3,9 @@ import React, {Component} from 'react';
 class IssuesListItem extends Component{
     render(){
         const item = this.props.item;
+        const date = new Date(item.created_at);
         return (
-            <li>{item.title}</li>
+            <li><b>#{item.number}</b> {item.title} | {date.toLocaleDateString()}</li>
         );
     }
 }
