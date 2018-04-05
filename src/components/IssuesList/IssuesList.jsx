@@ -4,6 +4,7 @@ import RepositoryInput from './../RepositoryInput/RepositoryInput';
 import PageLimitDropdown from './../PageLimitDropdown/PageLimitDropdown';
 import IssuesListItem from './IssuesListItem';
 import GithubAPI from "../../api/GithubAPI";
+import Pager from "./../Pager/Pager";
 
 
 class IssuesList extends Component {
@@ -14,7 +15,8 @@ class IssuesList extends Component {
             items: [],
             currentPage: 1,
             itemsPerPage: 10,
-            repositoryName: ''
+            repositoryName: '',
+            itemsCount: 0
         };
     }
 
@@ -25,6 +27,10 @@ class IssuesList extends Component {
             this.setState({items: []});
             return;
         }
+
+        GithubAPI.fetchIssuesCount(path).then((count) => {
+            this.setState({itemsCount: count});
+        });
 
         GithubAPI.fetchIssues(path, {
             page: this.state.currentPage,
@@ -41,6 +47,10 @@ class IssuesList extends Component {
 
     setRepositoryName = (value) => {
         this.setState({repositoryName: value});
+    };
+
+    setCurrentPage = (value) => {
+        this.setState({currentPage: value});
     };
 
     componentDidUpdate(prevProps, prevState) {
@@ -63,6 +73,8 @@ class IssuesList extends Component {
                 <ul>
                     {items}
                 </ul>
+                <Pager currentPage={this.state.currentPage} setPage={this.setCurrentPage}
+                       pagesCount={Math.ceil(this.state.itemsCount / this.state.itemsPerPage)}/>
             </div>
         );
     }
