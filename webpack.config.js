@@ -25,12 +25,9 @@ let config = {
     module: {
         rules: [
             {
-                test: /.jsx?$/,
-                loader: 'babel-loader',
-                include: __dirname + "/src",
-                // query: {
-                //     presets: ["react"]
-                // }
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: ['babel-loader']
             },
 
             {
