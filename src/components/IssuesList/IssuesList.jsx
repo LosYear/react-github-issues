@@ -33,7 +33,6 @@ class IssuesList extends Component {
         this.setState({
             status: RequestIndicator.STATUS_LOADING
         });
-
         // @TODO: refactor
 
         GithubAPI.fetchIssuesCount(path).then((count) => {
