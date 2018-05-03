@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
-
-import RepositoryInput from './../RepositoryInput/RepositoryInput';
-import PageLimitDropdown from './../PageLimitDropdown/PageLimitDropdown';
+import {connect} from 'react-redux';
 import IssuesListItem from './IssuesListItem';
 import GithubAPI from "../../api/GithubAPI";
-import Pager from "./../Pager/Pager";
 import RequestIndicator from "./../RequestIndicator/RequestIndicator";
 
 
@@ -13,11 +10,6 @@ class IssuesList extends Component {
         super(props);
 
         this.state = {
-            items: [],
-            currentPage: 1,
-            itemsPerPage: 10,
-            repositoryName: '',
-            itemsCount: 0,
             status: null
         };
     }
@@ -51,18 +43,6 @@ class IssuesList extends Component {
         });
     };
 
-    setItemsPerPage = (value) => {
-        this.setState({itemsPerPage: value, currentPage: 1});
-
-    };
-
-    setRepositoryName = (value) => {
-        this.setState({repositoryName: value});
-    };
-
-    setCurrentPage = (value) => {
-        this.setState({currentPage: value});
-    };
 
     componentDidUpdate(prevProps, prevState) {
         const {currentPage, itemsPerPage, repositoryName} = prevState;
@@ -75,21 +55,18 @@ class IssuesList extends Component {
 
 
     render() {
-        const items = this.state.items.map((item) => <IssuesListItem key={item.id} item={item}/>);
+        const items = this.props.items.map((item) => <IssuesListItem key={item.id} item={item}/>);
 
-        return (
-            <div>
-                <RepositoryInput handleSubmit={this.setRepositoryName}/>
-                <PageLimitDropdown onChange={this.setItemsPerPage} value={this.state.itemsPerPage}/>
-                <RequestIndicator status={this.state.status}/>
-                <ul>
-                    {items}
-                </ul>
-                <Pager currentPage={this.state.currentPage} setPage={this.setCurrentPage}
-                       pagesCount={Math.ceil(this.state.itemsCount / this.state.itemsPerPage)}/>
-            </div>
-        );
+        return <ul>
+            {items}
+        </ul>;
     }
 }
 
-export default IssuesList;
+function mapStateToProps(state) {
+    return {
+        items: state.items
+    };
+}
+
+export default connect(mapStateToProps)(IssuesList);

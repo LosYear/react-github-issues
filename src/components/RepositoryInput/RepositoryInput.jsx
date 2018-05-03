@@ -1,10 +1,12 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
+import {connect} from 'react-redux';
+import * as actions from '../../actions';
 
-class RepositoryInput extends Component{
-    constructor(props){
+class RepositoryInput extends PureComponent {
+    constructor(props) {
         super(props);
 
-        this.state ={
+        this.state = {
             value: ''
         };
     }
@@ -14,11 +16,11 @@ class RepositoryInput extends Component{
     };
 
     handleSubmit = (event) => {
-        this.props.handleSubmit(this.state.value);
+        this.props.changeRepository(this.state.value);
         event.preventDefault();
     };
 
-    render(){
+    render() {
         return (
             <form onSubmit={this.handleSubmit}>
                 <input type="text" placeholder="Репозиторий" onChange={this.handleChange}/>
@@ -28,4 +30,8 @@ class RepositoryInput extends Component{
     }
 }
 
-export default RepositoryInput;
+function mapStateToProps(state) {
+    return {};
+}
+
+export default connect(mapStateToProps, actions)(RepositoryInput);

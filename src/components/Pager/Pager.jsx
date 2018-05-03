@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import PagerItem from './PagerItem';
+import * as actions from '../../actions';
+import {connect} from 'react-redux';
 
 class Pager extends Component {
     static defaultProps = {
@@ -21,9 +23,9 @@ class Pager extends Component {
             items.push(<PagerItem setPage={this.props.setPage} key={i} title={i} page={i}/>);
         }
 
-        items.unshift(<PagerItem setPage={this.props.setPage} key={0} page={1} title="Первая"/>);
+        items.unshift(<PagerItem setPage={this.props.changeCurrentPage} key={0} page={1} title="Первая"/>);
 
-        items.push(<PagerItem setPage={this.props.setPage} key={this.props.pagesCount + 1}
+        items.push(<PagerItem setPage={this.props.changeCurrentPage} key={this.props.pagesCount + 1}
                               page={this.props.pagesCount} title="Последняя"/>);
 
         return (<ul>
@@ -33,4 +35,12 @@ class Pager extends Component {
 
 }
 
-export default Pager;
+function mapStateToProps(state){
+    return {
+        currentPage: state.pagination.currentPage,
+        pagesCount: Math.ceil(state.repository.itemsCount / state.pagination.pageSize)
+    };
+}
+
+
+export default connect(mapStateToProps, actions)(Pager);

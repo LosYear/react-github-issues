@@ -1,12 +1,14 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
+import * as actions from '../../actions';
+import {connect} from 'react-redux';
 
-class PageLimitDropdown extends Component {
+class PageLimitDropdown extends PureComponent {
     static defaultProps = {
         sizes: [5, 10, 30, 50, 100]
     };
 
     onChange = (event) => {
-        this.props.onChange(parseInt(event.target.value));
+        this.props.changePageSize(parseInt(event.target.value));
         event.preventDefault();
     };
 
@@ -19,4 +21,10 @@ class PageLimitDropdown extends Component {
     }
 }
 
-export default PageLimitDropdown;
+function mapStateToProps(state){
+    return {
+        value: state.pagination.pageSize
+    };
+}
+
+export default connect(mapStateToProps, actions)(PageLimitDropdown);

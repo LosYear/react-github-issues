@@ -5,7 +5,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 let config = {
     mode: 'development',
     entry: {
-        app: [
+        app: ['babel-polyfill',
             './src/index.jsx'
         ]
     },

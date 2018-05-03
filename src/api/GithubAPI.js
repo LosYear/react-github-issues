@@ -4,7 +4,7 @@ class GithubAPI {
     static API_URL = 'https://api.github.com/';
 
     static fetchIssues(path, params = {}) {
-        const url = this.API_URL + 'repos/' + path + '/issues?' + param(params);
+        const url = GithubAPI.API_URL + 'repos/' + path + '/issues?' + param(params);
 
         return fetch(url).then((response) => {
             if (response.ok) {
@@ -16,7 +16,7 @@ class GithubAPI {
     }
 
     static fetchIssuesCount(path, params = {}) {
-        const url = this.API_URL + 'repos/' + path + '?' + param(params);
+        const url = GithubAPI.API_URL + 'repos/' + path + '?' + param(params);
 
         return fetch(url).then((response) => {
             if (response.ok) {

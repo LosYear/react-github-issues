@@ -1,16 +1,28 @@
-import React from 'react'
-import {hot} from 'react-hot-loader'
+import React from 'react';
+import {hot} from 'react-hot-loader';
+import {connect} from 'react-redux';
+import * as actions from './actions';
 
 import IssuesList from './components/IssuesList/IssuesList';
+import RepositoryInput from './components/RepositoryInput/RepositoryInput';
+import PageLimitDropdown from './components/PageLimitDropdown/PageLimitDropdown';
+import Pager from './components/Pager/Pager';
 
 class App extends React.Component {
     render() {
         return (
             <div>
+                <RepositoryInput/>
+                <PageLimitDropdown/>
                 <IssuesList/>
+                <Pager/>
             </div>
         );
     }
 }
 
-export default hot(module)(App)
+function mapStateToProps(state) {
+    return {};
+}
+
+export default connect(mapStateToProps, actions)(App);
