@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PagerItem from './PagerItem';
 import * as actions from '../../actions';
 import {connect} from 'react-redux';
+import RequestIndicator from "../RequestIndicator/RequestIndicator";
 
 class Pager extends Component {
     static defaultProps = {
@@ -13,7 +14,7 @@ class Pager extends Component {
         let start = Math.max(1, this.props.currentPage - Math.floor(maxPages / 2));
         let end = Math.min(this.props.pagesCount, start + maxPages);
 
-        if(start + maxPages > this.props.pagesCount){
+        if (start + maxPages > this.props.pagesCount) {
             start = Math.max(1, this.props.pagesCount - maxPages);
         }
 
@@ -28,17 +29,18 @@ class Pager extends Component {
         items.push(<PagerItem setPage={this.props.changeCurrentPage} key={this.props.pagesCount + 1}
                               page={this.props.pagesCount} title="Последняя"/>);
 
-        return (<ul>
+        return (this.props.requestStatus && <ul>
             {items}
         </ul>);
     }
 
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
     return {
         currentPage: state.pagination.currentPage,
-        pagesCount: Math.ceil(state.repository.itemsCount / state.pagination.pageSize)
+        pagesCount: Math.ceil(state.repository.itemsCount / state.pagination.pageSize),
+        requestStatus: state.request.status === RequestIndicator.STATUS_SUCCESS
     };
 }
 
