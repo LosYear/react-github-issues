@@ -7,6 +7,7 @@ import IssuesList from './components/IssuesList/IssuesList';
 import RepositoryInput from './components/RepositoryInput/RepositoryInput';
 import PageLimitDropdown from './components/PageLimitDropdown/PageLimitDropdown';
 import Pager from './components/Pager/Pager';
+import RequestIndicator from './components/RequestIndicator/RequestIndicator';
 
 class App extends React.Component {
     render() {
@@ -14,6 +15,7 @@ class App extends React.Component {
             <div>
                 <RepositoryInput/>
                 <PageLimitDropdown/>
+                <RequestIndicator/>
                 <IssuesList/>
                 <Pager/>
             </div>
