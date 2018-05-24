@@ -14,7 +14,7 @@ export function* loadData(action) {
     yield put(setPageSize(action.pageSize));
 
     // Fetch items
-    const items = yield call(GithubAPI.fetchIssues, repo, {per_page: action.pageSize, page: action.page});
+    const items = yield call(GithubAPI.fetchIssues, repo, {per_page: action.pageSize, page: action.currentPage});
     yield put(setItems(items));
 }
 

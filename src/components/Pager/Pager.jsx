@@ -20,7 +20,7 @@ class Pager extends Component {
         let items = [];
 
         for (let i = start; i <= end; i++) {
-            items.push(<PagerItem setPage={this.props.setPage} key={i} title={i} page={i}/>);
+            items.push(<PagerItem setPage={this.props.changeCurrentPage} key={i} title={i} page={i}/>);
         }
 
         items.unshift(<PagerItem setPage={this.props.changeCurrentPage} key={0} page={1} title="Первая"/>);

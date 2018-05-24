@@ -8,7 +8,7 @@ function getDefaultState() {
 }
 
 function setPageSize(state, size) {
-    return Object.assign({}, state, {pageSize: size, currentPage: 1});
+    return Object.assign({}, state, {pageSize: size});
 }
 
 function setCurrentPage(state, page){
