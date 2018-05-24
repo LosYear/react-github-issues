@@ -1,4 +1,4 @@
-import {ACTION_CHANGE_ITEMS} from '../actions';
+import {ACTION_SET_ITEMS} from '../actions';
 
 function getDefaultState() {
     return [];
@@ -6,7 +6,7 @@ function getDefaultState() {
 
 export default function (state = getDefaultState(), action) {
     switch (action.type) {
-        case ACTION_CHANGE_ITEMS:
+        case ACTION_SET_ITEMS:
             return action.items;
     }
 
